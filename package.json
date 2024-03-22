@@ -1,0 +1,31 @@
+{
+  "name": "@uniformdev-collab/rule-based-personalization-repo",
+  "private": true,
+  "scripts": {
+    "build": "turbo build",
+    "build:force": "turbo build --force",
+    "contentful:dev": "turbo dev --scope=@uniformdev-collab/rule-based-personalization-nextjs-contentful",
+    "dev": "turbo dev",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "lint": "turbo lint",
+    "test": "jest",
+    "version:minor": "turbo version:minor"
+  },
+  "devDependencies": {
+    "@repo/eslint-config": "*",
+    "@repo/typescript-config": "*",
+    "@types/jest": "^29.5.12",
+    "jest": "^29.7.0",
+    "prettier": "^3.2.5",
+    "ts-jest": "^29.1.2",
+    "turbo": "latest"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "npm@10.4.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}

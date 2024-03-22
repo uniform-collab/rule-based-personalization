@@ -1,0 +1,57 @@
+{
+  "metadata": {
+    "tags": [
+      {
+        "sys": {
+          "type": "Link",
+          "linkType": "Tag",
+          "id": "city"
+        }
+      }
+    ]
+  },
+  "sys": {
+    "space": {
+      "sys": {
+        "type": "Link",
+        "linkType": "Space",
+        "id": "14ndt8qeps2t"
+      }
+    },
+    "id": "6HH70ehwmgU3wpcAlm30pf",
+    "type": "Entry",
+    "createdAt": "2024-03-12T16:40:26.280Z",
+    "updatedAt": "2024-03-14T19:20:23.215Z",
+    "environment": {
+      "sys": {
+        "id": "master",
+        "type": "Link",
+        "linkType": "Environment"
+      }
+    },
+    "revision": 3,
+    "contentType": {
+      "sys": {
+        "type": "Link",
+        "linkType": "ContentType",
+        "id": "article"
+      }
+    },
+    "locale": "en-US"
+  },
+  "fields": {
+    "name": "New York Article",
+    "unfrmOptEnrichmentTag": [
+      {
+        "cat": "1",
+        "key": "5",
+        "str": 1
+      },
+      {
+        "cat": "2",
+        "key": "3",
+        "str": 1
+      }
+    ]
+  }
+}

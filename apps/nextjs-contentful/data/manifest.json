@@ -1,0 +1,37 @@
+{
+  "project": {
+    "pz": {
+      "enr": {
+        "1": {
+          "cap": 100
+        },
+        "2": {
+          "cap": 100
+        }
+      },
+      "sig": {
+        "usVisitor": {
+          "str": 1,
+          "cap": 1,
+          "dur": "s",
+          "crit": {
+            "op": "&",
+            "type": "G",
+            "clauses": [
+              {
+                "key": "country",
+                "type": "QK",
+                "match": {
+                  "cs": false,
+                  "op": "=",
+                  "rhs": "US"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "test": {}
+  }
+}

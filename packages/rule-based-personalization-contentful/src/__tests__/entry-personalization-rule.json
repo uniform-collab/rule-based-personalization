@@ -1,0 +1,62 @@
+{
+  "metadata": {
+    "tags": [
+      {
+        "sys": {
+          "type": "Link",
+          "linkType": "Tag",
+          "id": "state"
+        }
+      }
+    ]
+  },
+  "sys": {
+    "space": {
+      "sys": {
+        "type": "Link",
+        "linkType": "Space",
+        "id": "14ndt8qeps2t"
+      }
+    },
+    "id": "7BS6StokL5TDXb0wPRnCQg",
+    "type": "Entry",
+    "createdAt": "2024-03-12T16:44:09.336Z",
+    "updatedAt": "2024-03-14T19:35:46.353Z",
+    "environment": {
+      "sys": {
+        "id": "master",
+        "type": "Link",
+        "linkType": "Environment"
+      }
+    },
+    "revision": 10,
+    "contentType": {
+      "sys": {
+        "type": "Link",
+        "linkType": "ContentType",
+        "id": "personalizedListRule"
+      }
+    },
+    "locale": "en-US"
+  },
+  "fields": {
+    "name": "Low interest in Culture",
+    "action": "hide",
+    "unfrmOptPersonalizationCriteria": {
+      "crit": [
+        {
+          "l": "2_3",
+          "r": "5",
+          "op": "<"
+        }
+      ]
+    },
+    "unfrmOptEnrichmentTag": [
+      {
+        "cat": "2",
+        "key": "3",
+        "str": 0
+      }
+    ]
+  }
+}

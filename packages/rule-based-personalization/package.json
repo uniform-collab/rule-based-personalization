@@ -1,0 +1,36 @@
+{
+  "name": "@uniformdev-collab/rule-based-personalization",
+  "version": "0.2.0",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "version:minor": "npm version minor",
+    "npm:publish": "npm publish --access public",
+    "test": "jest"
+  },
+  "files": [
+    "/dist"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^29.5.12",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.1.2",
+    "typescript": "^5.4.2"
+  },
+  "dependencies": {
+    "@uniformdev/context": "^19.126.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uniform-collab/rule-based-personalization.git"
+  },
+  "bugs": {
+    "url": "https://github.com/uniform-collab/rule-based-personalization/issues"
+  },
+  "homepage": "https://github.com/uniform-collab/rule-based-personalization#readme",
+  "description": ""
+}
