@@ -38,15 +38,15 @@ describe(getApplicableRules, () => {
       ]
     })
     const original: PersonalizationRule[] = [
-      { action: "boost", id: "rule1", pz: { crit: [{ l: "1_1", op: "=", r: 5 }] }, requiredValues: [] },
-      { action: "boost", id: "rule2", pz: { crit: [{ l: "2_2", op: "=", r: 5 }] }, requiredValues: [] },
-      { action: "boost", id: "rule3", pz: { crit: [{ l: "1_1", op: ">", r: 0 }] }, requiredValues: [] },
-      { action: "boost", id: "rule4", pz: { crit: [{ l: "1_1", op: ">", r: 4 }] }, requiredValues: [] },
+      { action: "boost", id: "rule1", pz: { crit: [{ l: "1_1", op: "=", r: 5 }] }, requiredValues: [], matchType: "all" },
+      { action: "boost", id: "rule2", pz: { crit: [{ l: "2_2", op: "=", r: 5 }] }, requiredValues: [], matchType: "all" },
+      { action: "boost", id: "rule3", pz: { crit: [{ l: "1_1", op: ">", r: 0 }] }, requiredValues: [], matchType: "all" },
+      { action: "boost", id: "rule4", pz: { crit: [{ l: "1_1", op: ">", r: 4 }] }, requiredValues: [], matchType: "all" },
     ];
     const expected: PersonalizationRule[] = [
-      { action: "boost", id: "rule1", pz: { crit: [{ l: "1_1", op: "=", r: 5 }] }, requiredValues: [] },
-      { action: "boost", id: "rule3", pz: { crit: [{ l: "1_1", op: ">", r: 0 }] }, requiredValues: [] },
-      { action: "boost", id: "rule4", pz: { crit: [{ l: "1_1", op: ">", r: 4 }] }, requiredValues: [] },
+      { action: "boost", id: "rule1", pz: { crit: [{ l: "1_1", op: "=", r: 5 }] }, requiredValues: [], matchType: "all" },
+      { action: "boost", id: "rule3", pz: { crit: [{ l: "1_1", op: ">", r: 0 }] }, requiredValues: [], matchType: "all" },
+      { action: "boost", id: "rule4", pz: { crit: [{ l: "1_1", op: ">", r: 4 }] }, requiredValues: [], matchType: "all" },
     ];
     const result = getApplicableRules("test", context, original);
     expect(result.length).toBe(expected.length);

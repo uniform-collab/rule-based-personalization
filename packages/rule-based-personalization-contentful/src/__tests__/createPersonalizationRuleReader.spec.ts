@@ -12,6 +12,7 @@ describe(createPersonalizationRuleReader, () => {
       getId: (entry) => entry.fields.name as string,
       getPz: (entry) => entry.fields.unfrmOptPersonalizationCriteria as VariantMatchCriteria,
       getRequiredValues: (entry) => requiredValues,
+      getMatchType: (entry) => "all",
     });
 
     const result = reader(entry as Entry);
@@ -38,6 +39,7 @@ describe(createPersonalizationRuleReader, () => {
         getId: (entry) => entry.fields.name as string,
         getPz: (entry) => entry.fields.unfrmOptPersonalizationCriteria as VariantMatchCriteria,
         getRequiredValues: (entry) => ["value1", "value2"],
+        getMatchType: (entry) => "all",
       })
       const result = reader(entry as Entry);
       expect(result).toBeDefined();
@@ -51,6 +53,7 @@ describe(createPersonalizationRuleReader, () => {
         getId: (entry) => entry.fields.name as string,
         getPz: (entry) => entry.fields.unfrmOptPersonalizationCriteria as VariantMatchCriteria,
         getRequiredValues: (entry) => ["value1", "value2"],
+        getMatchType: (entry) => "all",
       })
       const result = reader(entry as Entry);
       expect(result).toBeDefined();
@@ -64,6 +67,7 @@ describe(createPersonalizationRuleReader, () => {
         getId: (entry) => entry.fields.name as string,
         getPz: (entry) => entry.fields.unfrmOptPersonalizationCriteria as VariantMatchCriteria,
         getRequiredValues: (entry) => ["value1", "value2"],
+        getMatchType: (entry) => "all",
       })
       const result = reader(entry as Entry);
       expect(result).toBeDefined();
@@ -80,6 +84,7 @@ describe(createPersonalizationRuleReader, () => {
         getId: (entry) => "not the expected value",
         getPz: (entry) => entry.fields.unfrmOptPersonalizationCriteria as VariantMatchCriteria,
         getRequiredValues: (entry) => ["value1", "value2"],
+        getMatchType: (entry) => "all",
       })
       const result = reader(entry as Entry);
       expect(result).toBeDefined();
@@ -103,6 +108,7 @@ describe(createPersonalizationRuleReader, () => {
           ]
         }) as VariantMatchCriteria,
         getRequiredValues: (entry) => ["value1", "value2"],
+        getMatchType: (entry) => "all",
       })
       const result = reader(entry as Entry);
       expect(result).toBeDefined();
@@ -114,6 +120,7 @@ describe(createPersonalizationRuleReader, () => {
         getAction: (entry) => entry.fields.action as string,
         getId: (entry) => entry.fields.name as string,
         getRequiredValues: (entry) => ["value1", "value2"],
+        getMatchType: (entry) => "all",
       })
       const result = reader(entry as Entry);
       expect(result).toBeDefined();

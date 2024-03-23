@@ -68,6 +68,7 @@ const articleOptions: RuleBasedPersonalizeOptions<Entry> = {
    */
   convertToRule: createPersonalizationRuleReader({
     actionFieldId: "action",
+    matchTypeFieldId: "contentCriteriaMatchType",
     idFieldId: "name",
     /**
      * This property is optional if the field was created
@@ -93,22 +94,8 @@ const actions: RuleActionCollection<Entry> = {
   example: (position) => {},
 };
 
-// const matchTypeReader = createFieldValueReader<string>("contentCriteriaMode");
 const matchHandlers: RuleMatchHandlerCollection<Entry> = {
-  all: (entry, contentValueReader, ruleValues) => {
-    const contentValues = contentValueReader(entry);
-    const criteriaMet = ruleValues.every((ruleValue) => {
-      contentValues.includes(ruleValue);
-    });
-    return criteriaMet;
-  },
-  any: (entry, contentValueReader, ruleValues) => {
-    const contentValues = contentValueReader(entry);
-    const criteriaMet = ruleValues.some((ruleValue) => {
-      contentValues.includes(ruleValue);
-    });
-    return criteriaMet;
-  },
+  example: () => true,
 };
 
 export default function App({ Component, pageProps }: AppProps) {

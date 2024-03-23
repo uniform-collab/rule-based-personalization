@@ -5,8 +5,8 @@ describe(applyRulesToListEntries, () => {
 
   test("Empty entries array returns empty array.", () => {
     const rules: PersonalizationRule[] = [
-      { action: "boost", id: "rule1", pz: { crit: [] }, requiredValues: [] },
-      { action: "boost", id: "rule2", pz: { crit: [] }, requiredValues: [] },
+      { action: "boost", id: "rule1", pz: { crit: [] }, requiredValues: [], matchType: "all" },
+      { action: "boost", id: "rule2", pz: { crit: [] }, requiredValues: [], matchType: "all" },
     ];
     const listEntries: string[] = [];
     const args: ApplyRulesToListEntriesArgs<string> = {
@@ -34,8 +34,8 @@ describe(applyRulesToListEntries, () => {
 
   test("boost rules that don't apply to any entry results in no changes", () => {
     const rules: PersonalizationRule[] = [
-      { action: "boost", id: "rule1", pz: { crit: [] }, requiredValues: [] },
-      { action: "boost", id: "rule2", pz: { crit: [] }, requiredValues: [] },
+      { action: "boost", id: "rule1", pz: { crit: [] }, requiredValues: [], matchType: "all" },
+      { action: "boost", id: "rule2", pz: { crit: [] }, requiredValues: [], matchType: "all" },
     ];
     const listEntries: string[] = ["entryA", "entryB", "entryC"];
     const expected: EntryPosition<string>[] = [
@@ -58,8 +58,8 @@ describe(applyRulesToListEntries, () => {
 
   test("1 boost rule applies", () => {
     const rules: PersonalizationRule[] = [
-      { action: "boost", id: "rule1", pz: { crit: [] }, requiredValues: [] },
-      { action: "boost", id: "rule2", pz: { crit: [] }, requiredValues: [] },
+      { action: "boost", id: "rule1", pz: { crit: [] }, requiredValues: [], matchType: "all" },
+      { action: "boost", id: "rule2", pz: { crit: [] }, requiredValues: [], matchType: "all" },
     ];
     const listEntries: string[] = ["entryA", "entryB", "entryC"];
     const args: ApplyRulesToListEntriesArgs<string> = {
@@ -82,8 +82,8 @@ describe(applyRulesToListEntries, () => {
 
   test("Multiple boost rules apply", () => {
     const rules: PersonalizationRule[] = [
-      { action: "boost", id: "rule1", pz: { crit: [] }, requiredValues: [] },
-      { action: "boost", id: "rule2", pz: { crit: [] }, requiredValues: [] },
+      { action: "boost", id: "rule1", pz: { crit: [] }, requiredValues: [], matchType: "all" },
+      { action: "boost", id: "rule2", pz: { crit: [] }, requiredValues: [], matchType: "all" },
     ];
     const listEntries: string[] = ["entryA", "entryB", "entryC"];
     const args: ApplyRulesToListEntriesArgs<string> = {
@@ -106,7 +106,7 @@ describe(applyRulesToListEntries, () => {
 
   test("Overriding the default hide action works.", () => {
     const rules: PersonalizationRule[] = [
-      { action: "hide", id: "rule1", pz: { crit: [] }, requiredValues: [] },
+      { action: "hide", id: "rule1", pz: { crit: [] }, requiredValues: [], matchType: "all" },
     ];
     const listEntries: string[] = ["entryA", "entryB", "entryC"];
     const args: ApplyRulesToListEntriesArgs<string> = {
@@ -134,7 +134,7 @@ describe(applyRulesToListEntries, () => {
 
   test("Adding a new action that is registered works.", () => {
     const rules: PersonalizationRule[] = [
-      { action: "custom", id: "rule1", pz: { crit: [] }, requiredValues: [] },
+      { action: "custom", id: "rule1", pz: { crit: [] }, requiredValues: [], matchType: "all" },
     ];
     const listEntries: string[] = ["entryA", "entryB", "entryC"];
     const args: ApplyRulesToListEntriesArgs<string> = {
@@ -164,7 +164,7 @@ describe(applyRulesToListEntries, () => {
 
   test("Adding a new action that is not registered is ignored.", () => {
     const rules: PersonalizationRule[] = [
-      { action: "custom", id: "rule1", pz: { crit: [] }, requiredValues: [] },
+      { action: "custom", id: "rule1", pz: { crit: [] }, requiredValues: [], matchType: "all" },
     ];
     const listEntries: string[] = ["entryA", "entryB", "entryC"];
     const args: ApplyRulesToListEntriesArgs<string> = {
@@ -187,7 +187,7 @@ describe(applyRulesToListEntries, () => {
 
   test("Adding a new action that is registered works but not used is ignored.", () => {
     const rules: PersonalizationRule[] = [
-      { action: "hide", id: "rule1", pz: { crit: [] }, requiredValues: [] },
+      { action: "hide", id: "rule1", pz: { crit: [] }, requiredValues: [], matchType: "all" },
     ];
     const listEntries: string[] = ["entryA", "entryB", "entryC"];
     const args: ApplyRulesToListEntriesArgs<string> = {

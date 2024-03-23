@@ -4,7 +4,7 @@ import { Context, VariantMatchCriteria } from "@uniformdev/context";
  * Determines if the personalization rule applies based 
  * on the state of the entry.
  */
-export type DoesRuleApplyHandler<TEntry> = (entry: TEntry, rule: PersonalizationRule) => boolean;
+export type DoesRuleApplyHandler<TEntry> = (entry: TEntry, rule: PersonalizationRule, matchHandlers?: RuleMatchHandlerCollection<TEntry>) => boolean;
 
 /**
  * Represents a list entry that can be (or has been) personalized.
@@ -45,6 +45,7 @@ export type PersonalizationRule = {
   id: string;
   pz: VariantMatchCriteria;
   action: string;
+  matchType: string;
   requiredValues: string[];
 }
 /**
@@ -60,9 +61,11 @@ export type RulePropertyReaders<TEntry> = {
   getId?: EntryValueReader<TEntry, string>;
   getPz?: EntryValueReader<TEntry, VariantMatchCriteria>;
   getAction?: EntryValueReader<TEntry, string>;
+  getMatchType?: EntryValueReader<TEntry, string>;
   idFieldId?: string;
   pzFieldId?: string;
   actionFieldId?: string;
+  matchTypeFieldId?: string;
 }
 
 /**

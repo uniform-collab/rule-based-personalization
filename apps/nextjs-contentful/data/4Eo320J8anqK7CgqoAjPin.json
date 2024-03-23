@@ -78,6 +78,7 @@
         "fields": {
           "name": "Low interest in Culture",
           "action": "hide",
+          "contentCriteriaMatchType": "all",
           "unfrmOptPersonalizationCriteria": {
             "crit": [
               {
@@ -132,6 +133,7 @@
         "fields": {
           "name": "High interest in the US west coast",
           "action": "boost",
+          "contentCriteriaMatchType": "all",
           "unfrmOptPersonalizationCriteria": {
             "crit": [
               {

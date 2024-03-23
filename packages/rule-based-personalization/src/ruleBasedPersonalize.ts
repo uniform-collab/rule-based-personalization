@@ -21,7 +21,7 @@ export function ruleBasedPersonalize<TEntry>(args: RuleBasedPersonalizeArgs<TEnt
   const allRules = getAllRules(ruleEntries, convertToRule);
   const applicableRules = getApplicableRules(name, context, allRules);
   const allListEntries = getListEntries(entry);
-  const positions = applyRulesToListEntries<TEntry>({ rules: applicableRules, listEntries: allListEntries, doesRuleApply, actions });
+  const positions = applyRulesToListEntries<TEntry>({ rules: applicableRules, listEntries: allListEntries, doesRuleApply, actions, matchHandlers });
   const sortedEntries = positions.filter(info => info.hide !== true).map(info => info.listEntry);
   return {
     original: allListEntries,

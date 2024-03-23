@@ -1,6 +1,19 @@
 import { Entry } from "contentful";
-import { DoesRuleApplyHandler, RuleConverter, ReferencedEntriesReader, RulePropertyReaders, PersonalizationRule, EntryValueReader } from "@uniformdev-collab/rule-based-personalization";
+import { DoesRuleApplyHandler, RuleConverter, ReferencedEntriesReader, RulePropertyReaders, PersonalizationRule, EntryValueReader, RuleMatchHandlerCollection } from "@uniformdev-collab/rule-based-personalization";
 import { VariantMatchCriteria } from "@uniformdev/context";
+
+const DEFAULT_MATCH_HANDLERS: RuleMatchHandlerCollection<Entry> = {
+  all: (entry, contentValueReader, ruleValues) => {
+    const contentValues = contentValueReader(entry);
+    const criteriaMet = ruleValues.every((ruleValue) => contentValues.includes(ruleValue))
+    return criteriaMet;
+  },
+  any: (entry, contentValueReader, ruleValues) => {
+    const contentValues = contentValueReader(entry);
+    const criteriaMet = ruleValues.some((ruleValue) => contentValues.includes(ruleValue))
+    return criteriaMet;
+  },
+};
 
 /**
  * Creates an object that can determine whether 
@@ -11,12 +24,13 @@ import { VariantMatchCriteria } from "@uniformdev/context";
  */
 export function createEnrichmentTagsMatcher(fieldName?: string): DoesRuleApplyHandler<Entry> {
   const reader = createEnrichmentTagsReader(fieldName);
-  return (entry: Entry, rule: PersonalizationRule) => {
-    const values = reader(entry) ?? [];
-    const match = rule.requiredValues.every((requiredValue: string) =>
-      values.includes(requiredValue)
-    );
-    return match;
+  return (entry, rule, matchHandlers = {}) => {
+    const { requiredValues, matchType } = rule;
+    const matchHandler = matchHandlers[matchType] ?? DEFAULT_MATCH_HANDLERS[matchType];
+    if (matchHandler) {
+      return matchHandler(entry, reader, requiredValues);
+    }
+    return false;
   }
 }
 
@@ -70,21 +84,25 @@ export function createFieldEntriesReader(fieldName: string): ReferencedEntriesRe
  */
 export function createPersonalizationRuleReader(readers: RulePropertyReaders<Entry>): RuleConverter<Entry> {
   return (entry: Entry) => {
-    const { getAction, actionFieldId, getId, idFieldId, getPz, pzFieldId = "unfrmOptPersonalizationCriteria", getRequiredValues } = readers;
+    const { getAction, actionFieldId, getId, idFieldId, getPz, pzFieldId = "unfrmOptPersonalizationCriteria", matchTypeFieldId, getMatchType, getRequiredValues } = readers;
     const id = createFieldValueReader<string>(idFieldId, getId)(entry);
     if (id) {
       const pz = createFieldValueReader<VariantMatchCriteria>(pzFieldId, getPz)(entry);
       if (pz) {
         const action = createFieldValueReader<string>(actionFieldId, getAction)(entry);
         if (action) {
-          const requiredValues = getRequiredValues(entry);
-          if (Array.isArray(requiredValues)) {
-            return {
-              id,
-              pz,
-              action,
-              requiredValues,
-            }
+          const matchType = createFieldValueReader<string>(matchTypeFieldId, getMatchType)(entry);
+          if (matchType) {
+            const requiredValues = getRequiredValues(entry);
+            if (Array.isArray(requiredValues)) {
+              return {
+                id,
+                pz,
+                action,
+                matchType,
+                requiredValues,
+              }
+            }  
           }
         }
       }

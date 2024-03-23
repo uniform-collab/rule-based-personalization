@@ -9,6 +9,7 @@ describe(getAllRules, () => {
         id: entry,
         pz: { crit: [] },
         requiredValues: [],
+        matchType: "all",
       }
     })
     expect(Array.isArray(allRules)).toBe(true);
@@ -34,6 +35,7 @@ describe(getAllRules, () => {
         id: entry,
         pz,
         requiredValues,
+        matchType: "all",
       }
     })
     expect(Array.isArray(allRules)).toBe(true);

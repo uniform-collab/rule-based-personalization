@@ -1,6 +1,6 @@
 import { Context } from "@uniformdev/context";
 import { sortEntryPositions } from "./sort";
-import { PersonalizationRule, DoesRuleApplyHandler, EntryPosition, RuleConverter, RuleActionCollection } from "./types";
+import { PersonalizationRule, DoesRuleApplyHandler, EntryPosition, RuleConverter, RuleActionCollection, RuleMatchHandlerCollection } from "./types";
 
 /**
  * Converts the entries into personalization rules.
@@ -30,7 +30,7 @@ export function getAllRules<TEntry>(ruleEntries: TEntry[], convertToRule: RuleCo
  * @param rules 
  * @returns 
  */
-export function getApplicableRules(name: string, context: Context, rules: PersonalizationRule[]): PersonalizationRule[] {
+export function getApplicableRules<TEntry>(name: string, context: Context, rules: PersonalizationRule[]): PersonalizationRule[] {
   const { variations } = context.personalize({
     name,
     variations: rules,
@@ -44,6 +44,7 @@ export type ApplyRulesToListEntriesArgs<TEntry> = {
   listEntries: TEntry[];
   doesRuleApply: DoesRuleApplyHandler<TEntry>;
   actions?: RuleActionCollection<TEntry>;
+  matchHandlers?: RuleMatchHandlerCollection<TEntry>;
 }
 
 /**
@@ -56,7 +57,7 @@ export type ApplyRulesToListEntriesArgs<TEntry> = {
  * @returns 
  */
 export function applyRulesToListEntries<TEntry>(args: ApplyRulesToListEntriesArgs<TEntry>): EntryPosition<TEntry>[] {
-  const { rules, listEntries, doesRuleApply, actions = {} } = args;
+  const { rules, listEntries, doesRuleApply, actions = {}, matchHandlers = {} } = args;
   const result: EntryPosition<TEntry>[] = listEntries.map((listEntry, position) => {
     return {
       listEntry,
@@ -68,7 +69,7 @@ export function applyRulesToListEntries<TEntry>(args: ApplyRulesToListEntriesArg
   rules.forEach((rule) => {
     result.forEach((position) => {
       const { listEntry } = position ?? {};
-      const ruleApplies = doesRuleApply(listEntry, rule);
+      const ruleApplies = doesRuleApply(listEntry, rule, matchHandlers);
       if (ruleApplies) {
         const action = actions[rule.action];
         if (action) {
