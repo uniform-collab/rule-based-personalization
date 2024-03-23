@@ -1,6 +1,6 @@
 import { Context } from "@uniformdev/context";
 import { sortEntryPositions } from "./sort";
-import { PersonalizationRule, DoesRuleApplyHandler, EntryPosition, PersonalizationRuleConverter, RuleBasedPersonalizationActionCollection } from "./types";
+import { PersonalizationRule, DoesRuleApplyHandler, EntryPosition, RuleConverter, RuleActionCollection } from "./types";
 
 /**
  * Converts the entries into personalization rules.
@@ -8,7 +8,7 @@ import { PersonalizationRule, DoesRuleApplyHandler, EntryPosition, Personalizati
  * @param convertToRule 
  * @returns 
  */
-export function getAllRules<TEntry>(ruleEntries: TEntry[], convertToRule: PersonalizationRuleConverter<TEntry>): PersonalizationRule[] {
+export function getAllRules<TEntry>(ruleEntries: TEntry[], convertToRule: RuleConverter<TEntry>): PersonalizationRule[] {
   const result: PersonalizationRule[] = [];
   if (Array.isArray(ruleEntries)) {
     ruleEntries.forEach((ruleEntry) => {
@@ -43,7 +43,7 @@ export type ApplyRulesToListEntriesArgs<TEntry> = {
   rules: PersonalizationRule[];
   listEntries: TEntry[];
   doesRuleApply: DoesRuleApplyHandler<TEntry>;
-  actions?: RuleBasedPersonalizationActionCollection<TEntry>;
+  actions?: RuleActionCollection<TEntry>;
 }
 
 /**

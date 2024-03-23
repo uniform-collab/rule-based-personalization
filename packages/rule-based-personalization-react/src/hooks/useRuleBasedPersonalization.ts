@@ -1,4 +1,4 @@
-import { RuleBasedPersonalizeArgs, RuleBasedPersonalizeResult, ruleBasedPersonalize } from "@uniformdev-collab/rule-based-personalization";
+import { RuleBasedPersonalizeArgs, ruleBasedPersonalize } from "@uniformdev-collab/rule-based-personalization";
 import { useContext } from "react";
 import { RuleBasedPersonalizationContext, RuleBasedPersonalizationContextValue } from "../contexts";
 import { DoPersonalize, DoPersonalizeArgs, DoPersonalizeResult } from "../types";
@@ -20,11 +20,10 @@ export function useRuleBasedPersonalization<TEntry>(): UseRuleBasedPersonalizati
       }
     };
   }
-  const { optionsResolver } = value;
   const doPersonalize = (args: DoPersonalizeArgs<TEntry>): DoPersonalizeResult<TEntry> => {
     const args2: RuleBasedPersonalizeArgs<TEntry> = {
       ...args,
-      optionsResolver,
+      ...value,
     }
     return { result: ruleBasedPersonalize(args2) }
   }

@@ -24,9 +24,18 @@ export type EntryValueReader<TEntry, TReturn> = (entry: TEntry) => TReturn;
 /**
  * 
  */
-export type RuleBasedPersonalizationActionCollection<TEntry> = {
+export type RuleActionCollection<TEntry> = {
   [id: string]: (position: EntryPosition<TEntry>) => void;
 }
+
+/**
+ * 
+ */
+export type RuleMatchHandler<TEntry> = (entry: TEntry, contentValueReader: EntryValueReader<TEntry, string[]>, ruleValues: string[]) => boolean;
+/**
+ * 
+ */
+export type RuleMatchHandlerCollection<TEntry> = { [id: string]: RuleMatchHandler<TEntry> }
 
 /**
  * Represents the combination of personalization conditions 
@@ -41,12 +50,12 @@ export type PersonalizationRule = {
 /**
  * Converts an entry into a presonalization rule.
  */
-export type PersonalizationRuleConverter<TEntry> = (ruleEntry: TEntry) => (PersonalizationRule | undefined)
+export type RuleConverter<TEntry> = (ruleEntry: TEntry) => (PersonalizationRule | undefined)
 
 /**
  * Type that can make it reasier to create new PersonalizationRuleConverter types.
  */
-export type PersonalizationRulePropertyReaders<TEntry> = {
+export type RulePropertyReaders<TEntry> = {
   getRequiredValues: EntryValueReader<TEntry, string[]>;
   getId?: EntryValueReader<TEntry, string>;
   getPz?: EntryValueReader<TEntry, VariantMatchCriteria>;
@@ -96,7 +105,11 @@ export type RuleBasedPersonalizeArgs<TEntry> = {
   /**
    * 
    */
-  actions?: RuleBasedPersonalizationActionCollection<TEntry>;
+  actions?: RuleActionCollection<TEntry>;
+  /**
+   * 
+   */
+  matchHandlers?: RuleMatchHandlerCollection<TEntry>;
 }
 
 /**
@@ -116,7 +129,7 @@ export type RuleBasedPersonalizeOptions<TEntry> = {
    * rule into an object that can be used during the 
    * personalization process.
    */
-  convertToRule: PersonalizationRuleConverter<TEntry>;
+  convertToRule: RuleConverter<TEntry>;
   /**
    * Determines whether a personalization rule applies 
    * to the entry based on the visitor context.

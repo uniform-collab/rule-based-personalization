@@ -9,9 +9,10 @@ import {
 import { UniformContext } from "@uniformdev/context-react";
 import { RuleBasedPersonalization } from "@uniformdev-collab/rule-based-personalization-react";
 import {
-  RuleBasedPersonalizationActionCollection,
+  RuleActionCollection,
   RuleBasedPersonalizeOptions,
   RuleBasedPersonalizeOptionsResolver,
+  RuleMatchHandlerCollection,
 } from "@uniformdev-collab/rule-based-personalization";
 import {
   createEnrichmentTagsMatcher,
@@ -20,6 +21,7 @@ import {
   createPersonalizationRuleReader,
 } from "@uniformdev-collab/rule-based-personalization-contentful";
 import manifest from "../../data/manifest.json";
+import Head from "next/head";
 
 const context = new Context({
   manifest: manifest as ManifestV2,
@@ -28,12 +30,12 @@ const context = new Context({
 });
 
 /**
- * Returns the settings that control how rule-based personalization 
- * applies to Contentful entries. This example only supports the 
+ * Returns the settings that control how rule-based personalization
+ * applies to Contentful entries. This example only supports the
  * content type "articleList".
- * 
- * @param entry 
- * @returns 
+ *
+ * @param entry
+ * @returns
  */
 const optionsResolver: RuleBasedPersonalizeOptionsResolver<Entry> = (entry) => {
   switch (entry?.sys?.contentType?.sys?.id) {
@@ -45,8 +47,8 @@ const optionsResolver: RuleBasedPersonalizeOptionsResolver<Entry> = (entry) => {
 /**
  * Rule-based personalization settings for entries based on
  * the content type "articleList". It assumes the content
- * type has fields named "articles" and "personalizationRules".  
- * It also provides settings that describe the shape of the 
+ * type has fields named "articles" and "personalizationRules".
+ * It also provides settings that describe the shape of the
  * entries that describe the personalization rules assigned
  * to an "articleList".
  */
@@ -68,8 +70,8 @@ const articleOptions: RuleBasedPersonalizeOptions<Entry> = {
     actionFieldId: "action",
     idFieldId: "name",
     /**
-     * This property is optional if the field was created 
-     * using the Uniform app in Contentful because the 
+     * This property is optional if the field was created
+     * using the Uniform app in Contentful because the
      * field will have the default id.
      */
     pzFieldId: "unfrmOptPersonalizationCriteria",
@@ -87,16 +89,43 @@ const articleOptions: RuleBasedPersonalizeOptions<Entry> = {
   doesRuleApply: createEnrichmentTagsMatcher(),
 };
 
-const actions: RuleBasedPersonalizationActionCollection<Entry> = {
+const actions: RuleActionCollection<Entry> = {
   example: (position) => {},
+};
+
+// const matchTypeReader = createFieldValueReader<string>("contentCriteriaMode");
+const matchHandlers: RuleMatchHandlerCollection<Entry> = {
+  all: (entry, contentValueReader, ruleValues) => {
+    const contentValues = contentValueReader(entry);
+    const criteriaMet = ruleValues.every((ruleValue) => {
+      contentValues.includes(ruleValue);
+    });
+    return criteriaMet;
+  },
+  any: (entry, contentValueReader, ruleValues) => {
+    const contentValues = contentValueReader(entry);
+    const criteriaMet = ruleValues.some((ruleValue) => {
+      contentValues.includes(ruleValue);
+    });
+    return criteriaMet;
+  },
 };
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <UniformContext context={context}>
-      <RuleBasedPersonalization<Entry> optionsResolver={optionsResolver} actions={actions}>
-        <Component {...pageProps} />
-      </RuleBasedPersonalization>
-    </UniformContext>
+    <>
+      <Head>
+        <title>Rule-based personalization</title>
+      </Head>
+      <UniformContext context={context}>
+        <RuleBasedPersonalization<Entry>
+          optionsResolver={optionsResolver}
+          actions={actions}
+          matchHandlers={matchHandlers}
+        >
+          <Component {...pageProps} />
+        </RuleBasedPersonalization>
+      </UniformContext>
+    </>
   );
 }

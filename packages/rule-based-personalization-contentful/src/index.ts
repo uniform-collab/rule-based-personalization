@@ -1,5 +1,5 @@
 import { Entry } from "contentful";
-import { DoesRuleApplyHandler, PersonalizationRuleConverter, ReferencedEntriesReader, EntryValueReader, PersonalizationRulePropertyReaders, PersonalizationRule } from "@uniformdev-collab/rule-based-personalization";
+import { DoesRuleApplyHandler, RuleConverter, ReferencedEntriesReader, RulePropertyReaders, PersonalizationRule, EntryValueReader } from "@uniformdev-collab/rule-based-personalization";
 import { VariantMatchCriteria } from "@uniformdev/context";
 
 /**
@@ -68,14 +68,14 @@ export function createFieldEntriesReader(fieldName: string): ReferencedEntriesRe
  * @param readers 
  * @returns 
  */
-export function createPersonalizationRuleReader(readers: PersonalizationRulePropertyReaders<Entry>): PersonalizationRuleConverter<Entry> {
+export function createPersonalizationRuleReader(readers: RulePropertyReaders<Entry>): RuleConverter<Entry> {
   return (entry: Entry) => {
     const { getAction, actionFieldId, getId, idFieldId, getPz, pzFieldId = "unfrmOptPersonalizationCriteria", getRequiredValues } = readers;
-    const id = getFieldValueReader<string>(idFieldId, getId)(entry);
+    const id = createFieldValueReader<string>(idFieldId, getId)(entry);
     if (id) {
-      const pz = getFieldValueReader<VariantMatchCriteria>(pzFieldId, getPz)(entry);
+      const pz = createFieldValueReader<VariantMatchCriteria>(pzFieldId, getPz)(entry);
       if (pz) {
-        const action = getFieldValueReader<string>(actionFieldId, getAction)(entry);
+        const action = createFieldValueReader<string>(actionFieldId, getAction)(entry);
         if (action) {
           const requiredValues = getRequiredValues(entry);
           if (Array.isArray(requiredValues)) {
@@ -92,11 +92,11 @@ export function createPersonalizationRuleReader(readers: PersonalizationRuleProp
   }
 }
 
-function getFieldValueReader<TValue>(fieldName?: string, getFieldValue?: EntryValueReader<Entry, TValue>) {
-  if (fieldName) {
+export function createFieldValueReader<TValue>(fieldId?: string, getFieldValue?: EntryValueReader<Entry, TValue>) {
+  if (fieldId) {
     return (entry: Entry) => {
       const fields = entry?.fields ?? {};
-      return fields[fieldName] as TValue;
+      return fields[fieldId] as TValue;
     }
   }
   if (getFieldValue) return getFieldValue;

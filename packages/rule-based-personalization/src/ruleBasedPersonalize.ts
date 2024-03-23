@@ -9,13 +9,15 @@ import { applyRulesToListEntries, getAllRules, getApplicableRules } from "./rule
  * @returns 
  */
 export function ruleBasedPersonalize<TEntry>(args: RuleBasedPersonalizeArgs<TEntry>): RuleBasedPersonalizeResult<TEntry> {
-  const { name, entry, context, optionsResolver, actions } = args ?? {};
+  const { name, entry, context, optionsResolver, actions, matchHandlers } = args ?? {};
   const resolver = optionsResolver(entry);
   if (!resolver) {
     return { error: `No option resolver found.` };
   }
   const { getRuleEntries, convertToRule, getListEntries, doesRuleApply } = resolver;
   const ruleEntries = getRuleEntries(entry);
+
+
   const allRules = getAllRules(ruleEntries, convertToRule);
   const applicableRules = getApplicableRules(name, context, allRules);
   const allListEntries = getListEntries(entry);
