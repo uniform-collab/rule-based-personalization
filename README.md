@@ -36,3 +36,8 @@ npm run npm:publish
 cd ../rule-based-personalization-react
 npm run npm:publish
 ```
+
+```
+cd ../rule-based-personalization-react-contentful
+npm run npm:publish
+```

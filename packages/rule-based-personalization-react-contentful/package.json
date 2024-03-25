@@ -1,5 +1,5 @@
 {
-  "name": "@uniformdev-collab/rule-based-personalization",
+  "name": "@uniformdev-collab/rule-based-personalization-react-contentful",
   "version": "0.3.0",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -22,7 +22,15 @@
     "typescript": "^5.4.2"
   },
   "dependencies": {
-    "@uniformdev/context": "^19.126.0"
+    "@uniformdev-collab/rule-based-personalization": "*",
+    "@uniformdev-collab/rule-based-personalization-react": "*",
+    "@uniformdev/context": "^19.126.0",
+    "@uniformdev/context-react": "^19.126.0",
+    "contentful": "^10.8.3"
+  },
+  "peerDependencies": {
+    "react": ">=16.13.1 || 17 || 18",
+    "react-dom": ">=16.13.1"
   },
   "repository": {
     "type": "git",

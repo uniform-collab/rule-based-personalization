@@ -15,7 +15,7 @@ the app without having to connect a Contentful
 space. This entry is the exact JSON that is 
 returned by the Contentful Delivery API:
 
-[data/example.json](data/example.json)
+[data/282uRmMSQnXISWKSNXCh4T.json](data/282uRmMSQnXISWKSNXCh4T.json)
 
 1. Run the following command:
     ```sh

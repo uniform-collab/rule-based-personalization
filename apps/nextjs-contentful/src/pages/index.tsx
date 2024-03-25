@@ -1,44 +1,32 @@
 import { useEffect, useState } from "react";
-import { Entry } from "contentful";
+import { PersonalizationEvent } from "@uniformdev/context";
 import { useUniformContext } from "@uniformdev/context-react";
-import { ArticleList, InputField, Toggle } from "../components";
-import { getArticleList } from "@/lib/contentful";
-import { useRuleBasedPersonalization } from "@uniformdev-collab/rule-based-personalization-react";
-import { PlainTable } from "@/components/PlainTable";
+import { EntryList, InputField, Toggle } from "@/components";
+import { getEntry } from "@/lib/contentful";
+import { useContentfulRuleBasedPz } from "@uniformdev-collab/rule-based-personalization-react-contentful";
 
-const DEFAULT_ENTRY_ID = "4Eo320J8anqK7CgqoAjPin";
+const DEFAULT_ENTRY_ID = "282uRmMSQnXISWKSNXCh4T";
 
 export default function Home() {
   const { context } = useUniformContext();
+  const { doPersonalize } = useContentfulRuleBasedPz();
   const [entryId, setEntryId] = useState<string>(DEFAULT_ENTRY_ID);
   const [disconnectedMode, setDisconnectedMode] = useState(true);
 
-  const [articlesBefore, setArticlesBefore] = useState<any[]>();
-  const [articlesAfter, setArticlesAfter] = useState<any[]>();
-  const { doPersonalize } = useRuleBasedPersonalization<Entry>();
+  const [listBefore, setListBefore] = useState<any[]>();
+  const [listAfter, setListAfter] = useState<any[]>();
 
-  /**
-   * Personalization is implemented as a separate
-   * function so it can be triggered in multiple
-   * ways (button click, when scores are updated).
-   */
   async function personalize() {
     if (!entryId) return;
-    const entry = await getArticleList(entryId, disconnectedMode);
-    if (!entry) {
-      setArticlesBefore(undefined);
-      setArticlesAfter(undefined);
+    const entry = await getEntry(entryId, disconnectedMode);
+    if (entry) {      
+      const { original, personalized } = doPersonalize(entry);
+      setListBefore(original);
+      setListAfter(personalized);  
       return;
     }
-
-    const { result } = doPersonalize({
-      name: `Personalizing an article list on entry ${entryId}.`,
-      entry,
-      context,
-    });
-    const { original, personalized } = result;
-    setArticlesBefore(original);
-    setArticlesAfter(personalized);
+    setListBefore(undefined);
+    setListAfter(undefined);
   }
 
   /**
@@ -46,34 +34,21 @@ export default function Home() {
    * This will cause personalization to run whenever
    * the visitor's scores are updated.
    */
+  function log(e: PersonalizationEvent) {
+    console.log("Personalization was triggered on the home page.", e)
+  }
   useEffect(() => {
     context.events.on("scoresUpdated", personalize);
+    context.events.on("personalizationResult", log);
     return () => {
       context.events.off("scoresUpdated", personalize);
+      context.events.off("personalizationResult", log);
     };
   }, []);
   return (
     <main>
       <div className="w-96">
         <div className="p-2">
-          <div className="text-sm italic">
-            This demonstrates how to use Uniform to personalize a list of
-            articles in Contentful. The entry you use should have the following:
-            <PlainTable
-              rows={{
-                "Content type id": "articleList",
-                "Field id for articles": "articles",
-                "Field id for personalization rules": "personalizationRules",
-              }}
-            />
-          </div>
-          <hr className="my-2" />
-          <div className="w-96 py-2 text-sm italic text-gray-600">
-            If you run in disconnected mode (the default), instead of making a
-            live call to Contentful, a sample entry is used. This allows you to
-            use this application without having to configure Contentful.
-          </div>
-          <hr className="my-2" />
           <Toggle
             label="Run disconnected from Contentful"
             onChange={(value: boolean) => {
@@ -101,9 +76,9 @@ export default function Home() {
           </button>
         </div>
         <hr className="my-2" />
-        <ArticleList title="Before" articles={articlesBefore} />
+        <EntryList title="Before" entries={listBefore} displayFieldId="title"/>
         <hr className="my-2" />
-        <ArticleList title="After" articles={articlesAfter} />
+        <EntryList title="After" entries={listAfter} displayFieldId="title" />
       </div>
     </main>
   );

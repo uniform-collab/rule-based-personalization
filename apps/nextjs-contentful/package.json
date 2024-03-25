@@ -14,6 +14,7 @@
     "@uniformdev-collab/rule-based-personalization": "*",
     "@uniformdev-collab/rule-based-personalization-contentful": "*",
     "@uniformdev-collab/rule-based-personalization-react": "*",
+    "@uniformdev-collab/rule-based-personalization-react-contentful": "*",
     "@uniformdev/context": "^19.121.0",
     "@uniformdev/context-react": "^19.121.0",
     "contentful": "^10.8.1",
