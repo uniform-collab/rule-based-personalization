@@ -1,4 +1,4 @@
-import { createContentCriteriaMatchTypeHandlerMap, createPzRuleActionHandlerMap, sortContentEntryPositions } from "../actions";
+import { sortContentEntryPositions } from "../actions";
 import { ContentEntryPosition } from "../types";
 
 describe(sortContentEntryPositions, () => {

@@ -1,13 +1,5 @@
 import { Context, VariantMatchCriteria } from "@uniformdev/context";
-
-export type MapWithDefault<T> = {
-  get(id: string): T | undefined;
-}
-
-export type MapWithDefaultConfig<T> = {
-  defaultElement?: T;
-  elements?: { [id: string]: T };
-}
+import { Lookup } from "./lookups";
 
 export type ContentEntryPosition<TContentEntry> = {
   entry: TContentEntry;
@@ -26,7 +18,7 @@ export type PzConfig<TEntry, TContentEntry, TRuleEntry> = {
   getContentEntries: GetContentEntries<TEntry, TContentEntry>;
   getRuleEntries: GetRuleEntries<TEntry, TRuleEntry>;
   getRulesForVisitor: GetRulesForVisitor<TEntry, TContentEntry, TRuleEntry>;
-  pzRuleConfigs: MapWithDefault<PzRuleConfig<TRuleEntry, TContentEntry>>;
+  pzRuleConfigs: Lookup<PzRuleConfig<TRuleEntry, TContentEntry>>;
 }
 
 export type EntryValueReader<TEntry, TReturn> = (entry: TEntry) => TReturn;

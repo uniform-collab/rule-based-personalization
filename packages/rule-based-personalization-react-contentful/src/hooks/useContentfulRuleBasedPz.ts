@@ -2,11 +2,11 @@ import { Entry } from "contentful";
 import { useContext } from "react";
 import { RuleBasedPersonalizationContext, RuleBasedPersonalizationContextValue } from "@uniformdev-collab/rule-based-personalization-react";
 import { ContentfulPzConfig, ContentfulPzRuleConfig, DoContentfulPersonalizeOptions, doContentfulPersonalize } from "@uniformdev-collab/rule-based-personalization-contentful";
-import { DoPersonalizeResult, MapWithDefaultConfig } from "@uniformdev-collab/rule-based-personalization";
+import { DoPersonalizeResult, LookupConfig } from "@uniformdev-collab/rule-based-personalization";
 
 export type UseContentfulRuleBasedPzHookOptions = {
-  pzConfigs?: MapWithDefaultConfig<ContentfulPzConfig>;
-  pzRuleConfigs?: MapWithDefaultConfig<ContentfulPzRuleConfig>
+  pzConfigs?: LookupConfig<ContentfulPzConfig>;
+  pzRuleConfigs?: LookupConfig<ContentfulPzRuleConfig>
 }
 export type UseContentfulRuleBasedPzHookResult = {
   doPersonalize: (entry: Entry, options?: UseContentfulRuleBasedPzHookOptions) => DoPersonalizeResult<Entry>;

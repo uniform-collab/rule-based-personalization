@@ -12,6 +12,7 @@ function getDisplayValue(
   if (displayFieldId) {
     const fieldValue = entry.fields[displayFieldId];
     if (fieldValue) return fieldValue;
+    return `Unknown field [${entry.sys.id}]`
   }
   return entry.sys.id;
 }

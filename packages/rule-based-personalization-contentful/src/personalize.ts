@@ -1,4 +1,4 @@
-import { DoPersonalizeResult, MapWithDefaultConfig, PzRuleActionHandlers, doPersonalize } from "@uniformdev-collab/rule-based-personalization";
+import { DoPersonalizeResult, LookupConfig, PzRuleActionHandlers, doPersonalize } from "@uniformdev-collab/rule-based-personalization";
 import { Context } from "@uniformdev/context";
 import { Entry } from "contentful";
 import { convertContentfulPzConfigs } from "./converters";
@@ -6,8 +6,8 @@ import { ContentfulPzConfig, ContentfulPzRuleConfig } from "./types";
 
 export type DoContentfulPersonalizeOptions = {
   context: Context;
-  pzConfigs: MapWithDefaultConfig<ContentfulPzConfig>;
-  pzRuleConfigs: MapWithDefaultConfig<ContentfulPzRuleConfig>;
+  pzConfigs: LookupConfig<ContentfulPzConfig>;
+  pzRuleConfigs: LookupConfig<ContentfulPzRuleConfig>;
   pzRuleActionHandlers?: PzRuleActionHandlers<Entry>;
 }
 
@@ -24,7 +24,7 @@ export function doContentfulPersonalize(entry: Entry, options: DoContentfulPerso
   if (!pzConfig) {
     return { error: `No personalization rules config could be found for entry with content type ${entryContentType}.` };
   }  
-  return doPersonalize<Entry, Entry, Entry, ContentfulPzConfig, ContentfulPzRuleConfig>(entry, {
+  return doPersonalize<Entry, Entry, Entry>(entry, {
     context,
     pzConfig,
     getRuleType: ruleEntry => ruleEntry.sys.contentType.sys.id,

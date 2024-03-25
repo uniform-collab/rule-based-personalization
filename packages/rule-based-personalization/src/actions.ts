@@ -1,5 +1,5 @@
-import { createMapWithDefault } from "./maps";
-import { ContentEntryPosition, MapWithDefault, PzRuleActionHandler, PzRuleActionHandlers, ContentCriteriaMatchTypeHandler, ContentCriteriaMatchTypeHandlers } from "./types";
+import { Lookup, createLookup } from "./lookups";
+import { ContentEntryPosition, PzRuleActionHandler, PzRuleActionHandlers, ContentCriteriaMatchTypeHandler, ContentCriteriaMatchTypeHandlers } from "./types";
 
 function createBoostActionHandler<TContentEntry>(): PzRuleActionHandler<TContentEntry> {
   return function (index: number, positions: ContentEntryPosition<TContentEntry>[]) {
@@ -42,7 +42,7 @@ function createHideActionHandler<TContentEntry>(): PzRuleActionHandler<TContentE
   }
 }
 
-export function createPzRuleActionHandlerMap<TEntry>(pzRuleActionHandlers?: PzRuleActionHandlers<TEntry>): MapWithDefault<PzRuleActionHandler<TEntry>> {
+export function createPzRuleActionLookup<TEntry>(pzRuleActionHandlers?: PzRuleActionHandlers<TEntry>): Lookup<PzRuleActionHandler<TEntry>> {
   const handlers: PzRuleActionHandlers<TEntry> = {};
   if (pzRuleActionHandlers) {
     Object.keys(pzRuleActionHandlers).forEach(key => {
@@ -58,7 +58,7 @@ export function createPzRuleActionHandlerMap<TEntry>(pzRuleActionHandlers?: PzRu
   if (!handlers.hide) {
     handlers.hide = createHideActionHandler<TEntry>();
   }
-  return createMapWithDefault<PzRuleActionHandler<TEntry>>({ elements: handlers });
+  return createLookup<PzRuleActionHandler<TEntry>>({ elements: handlers });
 }
 
 function createAllContentCriteriaMatchTypeHandler<TValue>(): ContentCriteriaMatchTypeHandler<TValue> {
@@ -73,7 +73,7 @@ function createAnyContentCriteriaMatchTypeHandler<TValue>(): ContentCriteriaMatc
   }
 }
 
-export function createContentCriteriaMatchTypeHandlerMap<TValue>(contentCriteriaMatchHandlers?: ContentCriteriaMatchTypeHandlers<TValue>): MapWithDefault<ContentCriteriaMatchTypeHandler<TValue>> {
+export function createContentCriteriaMatchTypeLookup<TValue>(contentCriteriaMatchHandlers?: ContentCriteriaMatchTypeHandlers<TValue>): Lookup<ContentCriteriaMatchTypeHandler<TValue>> {
   const handlers: ContentCriteriaMatchTypeHandlers<TValue> = {}
   if (contentCriteriaMatchHandlers) {
     Object.keys(contentCriteriaMatchHandlers).forEach(key => {
@@ -89,7 +89,7 @@ export function createContentCriteriaMatchTypeHandlerMap<TValue>(contentCriteria
   if (!handlers.any) {
     handlers.any = createAnyContentCriteriaMatchTypeHandler();
   }
-  return createMapWithDefault<ContentCriteriaMatchTypeHandler<TValue>>({ elements: handlers });
+  return createLookup<ContentCriteriaMatchTypeHandler<TValue>>({ elements: handlers });
 }
 
 export function sortContentEntryPositions<TEntry>(a: ContentEntryPosition<TEntry>, b: ContentEntryPosition<TEntry>): number {

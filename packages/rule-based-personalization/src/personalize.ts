@@ -2,13 +2,13 @@ import { sortContentEntryPositions } from "./actions";
 import { Context } from "@uniformdev/context";
 import { DoPersonalizeResult, PzConfig } from "./types";
 
-export type DoPersonalizeOptions<TEntry, TContentEntry, TRuleEntry, TPzConfig, TPzRuleConfig> = {
+export type DoPersonalizeOptions<TEntry, TContentEntry, TRuleEntry> = {
   context: Context;
   pzConfig: PzConfig<TEntry, TContentEntry, TRuleEntry>;
   getRuleType: (ruleEntry: TRuleEntry) => string | undefined;
 }
 
-export function doPersonalize<TEntry, TContentEntry, TRuleEntry, TPzConfig, TPzRuleConfig>(entry: TEntry, options: DoPersonalizeOptions<TEntry, TContentEntry, TRuleEntry, TPzConfig, TPzRuleConfig>): DoPersonalizeResult<TContentEntry> {
+export function doPersonalize<TEntry, TContentEntry, TRuleEntry>(entry: TEntry, options: DoPersonalizeOptions<TEntry, TContentEntry, TRuleEntry>): DoPersonalizeResult<TContentEntry> {
   const { context, pzConfig, getRuleType } = options;
   //
   //

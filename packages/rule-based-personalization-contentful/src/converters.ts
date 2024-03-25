@@ -1,8 +1,8 @@
 import { Context, VariantMatchCriteria } from "@uniformdev/context";
 import { Entry } from "contentful";
-import { ContentCriteriaMatchTypeHandlers, ContentEntryPosition, MapWithDefault, MapWithDefaultConfig, PzConfig, PzRule, PzRuleActionHandlers, PzRuleConfig, createMapWithDefault, createPzRuleActionHandlerMap, createContentCriteriaMatchTypeHandlerMap } from "@uniformdev-collab/rule-based-personalization";
+import { ContentCriteriaMatchTypeHandlers, ContentEntryPosition, Lookup, LookupConfig, PzConfig, PzRule, PzRuleActionHandlers, PzRuleConfig, createLookup, createPzRuleActionLookup, createContentCriteriaMatchTypeLookup } from "@uniformdev-collab/rule-based-personalization";
 import { ContentfulPzConfig, ContentfulPzRuleConfig } from "./types";
-import { createContentfulEnrichmentTagsReader } from "./rules";
+import { createContentfulEnrichmentTagsReader } from "./readers";
 
 export type ConvertContentfulPzRuleConfigOptions = {
   pzRuleActionHandlers?: PzRuleActionHandlers<Entry>;
@@ -14,10 +14,10 @@ export type ConvertContentfulPzRuleConfigOptions = {
 export function convertContentfulPzRuleConfig(pzRuleConfig: ContentfulPzRuleConfig, options: ConvertContentfulPzRuleConfigOptions = {}): PzRuleConfig<Entry, Entry> {
   const { pzRuleActionHandlers, ruleEntryEnrichmentTagsFieldId, contentEntryEnrichmentTagsFieldId, contentCriteriaMatchTypeHandlers } = options;
   const { nameFieldId, actionFieldId, contentCriteriaMatchTypeFieldId } = pzRuleConfig;
-  const pzRuleActionHandlerMap = createPzRuleActionHandlerMap(pzRuleActionHandlers);
+  const pzRuleActionLookup = createPzRuleActionLookup(pzRuleActionHandlers);
   const ruleEntryEnrichmentTagReader = createContentfulEnrichmentTagsReader(ruleEntryEnrichmentTagsFieldId);
   const contentEntryEnrichmentTagReader = createContentfulEnrichmentTagsReader(contentEntryEnrichmentTagsFieldId);
-  const contentCriteriaMatchTypeHandlerMap = createContentCriteriaMatchTypeHandlerMap(contentCriteriaMatchTypeHandlers);
+  const contentCriteriaMatchTypeLookup = createContentCriteriaMatchTypeLookup(contentCriteriaMatchTypeHandlers);
   return {
     getRuleName: (ruleEntry: Entry) => ruleEntry.fields[nameFieldId] as string,
     createPzRuleFromEntry: (ruleEntry: Entry) => {
@@ -35,13 +35,13 @@ export function convertContentfulPzRuleConfig(pzRuleConfig: ContentfulPzRuleConf
       if (contentCriteriaMatchTypeFieldId) {
         contentCriteriaMatchTypeValue = ruleEntry.fields[contentCriteriaMatchTypeFieldId] as string;
       }
-      const handler = contentCriteriaMatchTypeHandlerMap.get(contentCriteriaMatchTypeValue ?? "all");
+      const handler = contentCriteriaMatchTypeLookup.get(contentCriteriaMatchTypeValue ?? "all");
       if (!handler) return false;
       return handler(ruleValues, contentValues);
     },
     getActionHandler: (ruleEntry: Entry) => {
       const action = ruleEntry.fields[actionFieldId] as string;
-      return pzRuleActionHandlerMap.get(action);
+      return pzRuleActionLookup.get(action);
     }
   }
 }
@@ -49,9 +49,9 @@ export function convertContentfulPzRuleConfig(pzRuleConfig: ContentfulPzRuleConf
 export type ConvertContentfulPzRuleConfigsOptions = {
   pzRuleActionHandlers?: PzRuleActionHandlers<Entry>;
 }
-export function convertContentfulPzRuleConfigs(pzRuleConfigs: MapWithDefaultConfig<ContentfulPzRuleConfig>, options: ConvertContentfulPzRuleConfigsOptions = {}): MapWithDefault<PzRuleConfig<Entry, Entry>> {
+export function convertContentfulPzRuleConfigs(pzRuleConfigs: LookupConfig<ContentfulPzRuleConfig>, options: ConvertContentfulPzRuleConfigsOptions = {}): Lookup<PzRuleConfig<Entry, Entry>> {
   const { pzRuleActionHandlers } = options;
-  const converted: MapWithDefaultConfig<PzRuleConfig<Entry, Entry>> = {};
+  const converted: LookupConfig<PzRuleConfig<Entry, Entry>> = {};
   if (pzRuleConfigs.defaultElement) {
     converted.defaultElement = convertContentfulPzRuleConfig(pzRuleConfigs.defaultElement, pzRuleActionHandlers);
   }
@@ -66,10 +66,10 @@ export function convertContentfulPzRuleConfigs(pzRuleConfigs: MapWithDefaultConf
     })
   }
   converted.elements = elements;
-  return createMapWithDefault(converted);
+  return createLookup(converted);
 }
 
-export function convertContentfulPzRuleEntries(ruleEntries: Entry[], pzRuleConfigs: MapWithDefault<PzRuleConfig<Entry, Entry>>): PzRule<Entry>[] {
+export function convertContentfulPzRuleEntries(ruleEntries: Entry[], pzRuleConfigs: Lookup<PzRuleConfig<Entry, Entry>>): PzRule<Entry>[] {
   const pzRules: PzRule<Entry>[] = []
   ruleEntries.forEach(ruleEntry => {
     const pzRuleConfig = pzRuleConfigs.get(ruleEntry.sys.contentType.sys.id);
@@ -82,7 +82,7 @@ export function convertContentfulPzRuleEntries(ruleEntries: Entry[], pzRuleConfi
   })
   return pzRules;
 }
-export function convertContentfulPzConfig(pzConfig: ContentfulPzConfig, pzRuleConfigs: MapWithDefaultConfig<ContentfulPzRuleConfig>, pzRuleActionHandlers: PzRuleActionHandlers<Entry>): PzConfig<Entry, Entry, Entry> {
+export function convertContentfulPzConfig(pzConfig: ContentfulPzConfig, pzRuleConfigs: LookupConfig<ContentfulPzRuleConfig>, pzRuleActionHandlers: PzRuleActionHandlers<Entry>): PzConfig<Entry, Entry, Entry> {
   const { contentEntriesFieldId, pzRulesFieldId } = pzConfig;
   return {
     getContentEntries: (entry: Entry) => {
@@ -117,8 +117,8 @@ export function convertContentfulPzConfig(pzConfig: ContentfulPzConfig, pzRuleCo
     pzRuleConfigs: convertContentfulPzRuleConfigs(pzRuleConfigs, { pzRuleActionHandlers }),
   }
 }
-export function convertContentfulPzConfigs(pzConfigs: MapWithDefaultConfig<ContentfulPzConfig>, pzRuleConfigs: MapWithDefaultConfig<ContentfulPzRuleConfig>, pzRuleActionHandlers: PzRuleActionHandlers<Entry>): MapWithDefault<PzConfig<Entry, Entry, Entry>> {
-  const converted: MapWithDefaultConfig<PzConfig<Entry, Entry, Entry>> = {};
+export function convertContentfulPzConfigs(pzConfigs: LookupConfig<ContentfulPzConfig>, pzRuleConfigs: LookupConfig<ContentfulPzRuleConfig>, pzRuleActionHandlers: PzRuleActionHandlers<Entry>): Lookup<PzConfig<Entry, Entry, Entry>> {
+  const converted: LookupConfig<PzConfig<Entry, Entry, Entry>> = {};
   if (pzConfigs.defaultElement) {
     converted.defaultElement = convertContentfulPzConfig(pzConfigs.defaultElement, pzRuleConfigs, pzRuleActionHandlers);
   }
@@ -133,5 +133,5 @@ export function convertContentfulPzConfigs(pzConfigs: MapWithDefaultConfig<Conte
     })
   }
   converted.elements = elements;
-  return createMapWithDefault(converted);
+  return createLookup(converted);
 }

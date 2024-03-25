@@ -6,11 +6,13 @@ import { getEntry } from "@/lib/contentful";
 import { useContentfulRuleBasedPz } from "@uniformdev-collab/rule-based-personalization-react-contentful";
 
 const DEFAULT_ENTRY_ID = "282uRmMSQnXISWKSNXCh4T";
+const DEFAULT_DISPLAY_FIELD_ID = "title";
 
 export default function Home() {
   const { context } = useUniformContext();
   const { doPersonalize } = useContentfulRuleBasedPz();
   const [entryId, setEntryId] = useState<string>(DEFAULT_ENTRY_ID);
+  const [displayFieldId, setDisplayFieldId] = useState<string>(DEFAULT_DISPLAY_FIELD_ID);
   const [disconnectedMode, setDisconnectedMode] = useState(true);
 
   const [listBefore, setListBefore] = useState<any[]>();
@@ -55,6 +57,7 @@ export default function Home() {
               setDisconnectedMode(value);
               if (value) {
                 setEntryId(DEFAULT_ENTRY_ID);
+                setDisplayFieldId(DEFAULT_DISPLAY_FIELD_ID);
               }
             }}
           />
@@ -64,6 +67,13 @@ export default function Home() {
               label="Contentful Entry ID"
               value={entryId}
               onChange={(e) => setEntryId(e.currentTarget.value)}
+              disabled={disconnectedMode}
+            />
+            <InputField
+              id="display-field-id"
+              label="Display Field ID"
+              value={displayFieldId}
+              onChange={(e) => setDisplayFieldId(e.currentTarget.value)}
               disabled={disconnectedMode}
             />
           </div>
@@ -76,9 +86,9 @@ export default function Home() {
           </button>
         </div>
         <hr className="my-2" />
-        <EntryList title="Before" entries={listBefore} displayFieldId="title"/>
+        <EntryList title="Before" entries={listBefore} displayFieldId={displayFieldId}/>
         <hr className="my-2" />
-        <EntryList title="After" entries={listAfter} displayFieldId="title" />
+        <EntryList title="After" entries={listAfter} displayFieldId={displayFieldId} />
       </div>
     </main>
   );

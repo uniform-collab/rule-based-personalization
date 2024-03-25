@@ -10,8 +10,7 @@ import { UniformContext } from "@uniformdev/context-react";
 import { RuleBasedPersonalization } from "@uniformdev-collab/rule-based-personalization-react";
 import manifest from "../../data/manifest.json";
 import Head from "next/head";
-import { MapWithDefaultConfig } from "@uniformdev-collab/rule-based-personalization";
-import { ContentfulPzConfig, ContentfulPzRuleConfig } from "@uniformdev-collab/rule-based-personalization-contentful";
+import { ContentfulPzConfigLookupConfig, ContentfulPzRuleLookupConfig } from "@uniformdev-collab/rule-based-personalization-contentful";
 
 const context = new Context({
   manifest: manifest as ManifestV2,
@@ -23,7 +22,7 @@ const context = new Context({
  * These are the global personalization configs. They 
  * can be overridden in the hook useContentfulRuleBasedPz.
  */
-const contentfulPzConfigs: MapWithDefaultConfig<ContentfulPzConfig> = {
+const contentfulPzConfigs: ContentfulPzConfigLookupConfig = {
   defaultElement: undefined,
   elements: {
     curatedLocationList: {
@@ -37,7 +36,7 @@ const contentfulPzConfigs: MapWithDefaultConfig<ContentfulPzConfig> = {
  * These are the global personalization rule configs. They 
  * can be overridden in the hook useContentfulRuleBasedPz.
  */
-const contentfulPzRuleConfigs: MapWithDefaultConfig<ContentfulPzRuleConfig> = {
+const contentfulPzRuleConfigs: ContentfulPzRuleLookupConfig = {
   defaultElement: {
     nameFieldId: "name",
     actionFieldId: "action",

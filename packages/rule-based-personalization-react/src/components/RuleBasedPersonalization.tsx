@@ -1,12 +1,12 @@
 import React from "react";
 import { RuleBasedPersonalizationContext } from "../contexts";
 import { Context } from "@uniformdev/context";
-import { MapWithDefaultConfig } from "@uniformdev-collab/rule-based-personalization";
+import { LookupConfig } from "@uniformdev-collab/rule-based-personalization";
 
 export type RuleBasedPersonalizationProps<TPzConfig, TPzRuleConfig> = {
   context: Context;
-  pzConfigs: MapWithDefaultConfig<TPzConfig>;
-  pzRuleConfigs: MapWithDefaultConfig<TPzRuleConfig>;
+  pzConfigs: LookupConfig<TPzConfig>;
+  pzRuleConfigs: LookupConfig<TPzRuleConfig>;
 };
 
 export function RuleBasedPersonalization<TPzConfig, TPzRuleConfig>(props: React.PropsWithChildren<RuleBasedPersonalizationProps<TPzConfig, TPzRuleConfig>>) {
