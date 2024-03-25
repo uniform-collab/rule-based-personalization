@@ -1,7 +1,7 @@
 import { Entry, createClient } from "contentful";
-import entry from "../../data/4Eo320J8anqK7CgqoAjPin.json";
+import entry from "../../data/282uRmMSQnXISWKSNXCh4T.json";
 
-export async function getArticleList(entryId: string, testMode?: boolean): Promise<Entry | undefined> {
+export async function getEntry(entryId: string, testMode?: boolean): Promise<Entry | undefined> {
   if (testMode) {
     return entry as Entry;
   }

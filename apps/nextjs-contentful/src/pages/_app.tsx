@@ -1,102 +1,61 @@
 import "@/styles/globals.css";
 import type { AppProps } from "next/app";
-import { Entry } from "contentful";
 import {
   Context,
   ManifestV2,
   enableContextDevTools,
+  enableDebugConsoleLogDrain,
 } from "@uniformdev/context";
 import { UniformContext } from "@uniformdev/context-react";
 import { RuleBasedPersonalization } from "@uniformdev-collab/rule-based-personalization-react";
-import {
-  RuleBasedPersonalizationActionCollection,
-  RuleBasedPersonalizeOptions,
-  RuleBasedPersonalizeOptionsResolver,
-} from "@uniformdev-collab/rule-based-personalization";
-import {
-  createEnrichmentTagsMatcher,
-  createEnrichmentTagsReader,
-  createFieldEntriesReader,
-  createPersonalizationRuleReader,
-} from "@uniformdev-collab/rule-based-personalization-contentful";
 import manifest from "../../data/manifest.json";
+import Head from "next/head";
+import { ContentfulPzConfigLookupConfig, ContentfulPzRuleLookupConfig } from "@uniformdev-collab/rule-based-personalization-contentful";
 
 const context = new Context({
   manifest: manifest as ManifestV2,
   defaultConsent: true,
-  plugins: [enableContextDevTools()],
+  plugins: [enableContextDevTools(), enableDebugConsoleLogDrain("info")],
 });
 
 /**
- * Returns the settings that control how rule-based personalization 
- * applies to Contentful entries. This example only supports the 
- * content type "articleList".
- * 
- * @param entry 
- * @returns 
+ * These are the global personalization configs. They 
+ * can be overridden in the hook useContentfulRuleBasedPz.
  */
-const optionsResolver: RuleBasedPersonalizeOptionsResolver<Entry> = (entry) => {
-  switch (entry?.sys?.contentType?.sys?.id) {
-    case "articleList":
-      return articleOptions;
+const contentfulPzConfigs: ContentfulPzConfigLookupConfig = {
+  defaultElement: undefined,
+  elements: {
+    curatedLocationList: {
+      contentEntriesFieldId: "locations",
+      pzRulesFieldId: "personalizationRules",
+    }
   }
-};
+}
 
 /**
- * Rule-based personalization settings for entries based on
- * the content type "articleList". It assumes the content
- * type has fields named "articles" and "personalizationRules".  
- * It also provides settings that describe the shape of the 
- * entries that describe the personalization rules assigned
- * to an "articleList".
+ * These are the global personalization rule configs. They 
+ * can be overridden in the hook useContentfulRuleBasedPz.
  */
-const articleOptions: RuleBasedPersonalizeOptions<Entry> = {
-  /**
-   * Read list entries from the specified field.
-   */
-  getListEntries: createFieldEntriesReader("articles"),
-  /**
-   * Read rule entries from the specified field.
-   */
-  getRuleEntries: createFieldEntriesReader("personalizationRules"),
-  /**
-   * Create a personalization rule using the enrichment
-   * tags assigned to the rule entry as the required
-   * values.
-   */
-  convertToRule: createPersonalizationRuleReader({
+const contentfulPzRuleConfigs: ContentfulPzRuleLookupConfig = {
+  defaultElement: {
+    nameFieldId: "name",
     actionFieldId: "action",
-    idFieldId: "name",
-    /**
-     * This property is optional if the field was created 
-     * using the Uniform app in Contentful because the 
-     * field will have the default id.
-     */
-    pzFieldId: "unfrmOptPersonalizationCriteria",
-    // getAction: (entry: Entry) => entry.fields.action as string,
-    // getId: (entry: Entry) => entry.fields.name as string,
-    // getPz: (entry: Entry) =>
-    //   entry.fields.unfrmOptPersonalizationCriteria as VariantMatchCriteria,
-    getRequiredValues: createEnrichmentTagsReader(),
-  }),
-  /**
-   * Compare the required values to the enrichment
-   * tags on the list entry determine whether the
-   * rule applies.
-   */
-  doesRuleApply: createEnrichmentTagsMatcher(),
-};
-
-const actions: RuleBasedPersonalizationActionCollection<Entry> = {
-  example: (position) => {},
-};
+    contentCriteriaMatchTypeFieldId: "contentCriteriaMatchType",
+  },
+  elements: {},
+}
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <UniformContext context={context}>
-      <RuleBasedPersonalization<Entry> optionsResolver={optionsResolver} actions={actions}>
-        <Component {...pageProps} />
-      </RuleBasedPersonalization>
-    </UniformContext>
+    <>
+      <Head>
+        <title>Rule-based personalization</title>
+      </Head>
+      <UniformContext context={context}>
+        <RuleBasedPersonalization context={context} pzConfigs={contentfulPzConfigs} pzRuleConfigs={contentfulPzRuleConfigs}>
+          <Component {...pageProps} />
+        </RuleBasedPersonalization>
+      </UniformContext>
+    </>
   );
 }

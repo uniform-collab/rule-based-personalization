@@ -7,13 +7,13 @@
       "sys": {
         "type": "Link",
         "linkType": "Space",
-        "id": "14ndt8qeps2t"
+        "id": "uw22iquaks71"
       }
     },
-    "id": "4Eo320J8anqK7CgqoAjPin",
+    "id": "282uRmMSQnXISWKSNXCh4T",
     "type": "Entry",
-    "createdAt": "2024-03-12T16:48:15.082Z",
-    "updatedAt": "2024-03-12T18:02:05.850Z",
+    "createdAt": "2024-03-22T20:44:37.199Z",
+    "updatedAt": "2024-03-24T20:49:40.719Z",
     "environment": {
       "sys": {
         "id": "master",
@@ -21,43 +21,35 @@
         "linkType": "Environment"
       }
     },
-    "revision": 2,
+    "revision": 3,
     "contentType": {
       "sys": {
         "type": "Link",
         "linkType": "ContentType",
-        "id": "articleList"
+        "id": "curatedLocationList"
       }
     },
     "locale": "en-US"
   },
   "fields": {
-    "name": "Sample Article List",
+    "title": "Popular Locations",
     "personalizationRules": [
       {
         "metadata": {
-          "tags": [
-            {
-              "sys": {
-                "type": "Link",
-                "linkType": "Tag",
-                "id": "state"
-              }
-            }
-          ]
+          "tags": []
         },
         "sys": {
           "space": {
             "sys": {
               "type": "Link",
               "linkType": "Space",
-              "id": "14ndt8qeps2t"
+              "id": "uw22iquaks71"
             }
           },
-          "id": "7BS6StokL5TDXb0wPRnCQg",
+          "id": "6Ad7AoC1FDw5yxAt9Z7OhB",
           "type": "Entry",
-          "createdAt": "2024-03-12T16:44:09.336Z",
-          "updatedAt": "2024-03-14T19:35:46.353Z",
+          "createdAt": "2024-03-22T22:29:05.732Z",
+          "updatedAt": "2024-03-23T03:17:21.557Z",
           "environment": {
             "sys": {
               "id": "master",
@@ -65,7 +57,7 @@
               "linkType": "Environment"
             }
           },
-          "revision": 10,
+          "revision": 2,
           "contentType": {
             "sys": {
               "type": "Link",
@@ -76,22 +68,39 @@
           "locale": "en-US"
         },
         "fields": {
-          "name": "Low interest in Culture",
-          "action": "hide",
+          "name": "Boost US locations for US visitors or visitors interested in the US",
+          "action": "boost",
           "unfrmOptPersonalizationCriteria": {
+            "op": "|",
             "crit": [
               {
-                "l": "2_3",
-                "r": "5",
-                "op": "<"
+                "l": "usVisitor",
+                "r": 0,
+                "op": ">"
+              },
+              {
+                "l": "1_5",
+                "r": 0,
+                "op": ">"
+              },
+              {
+                "l": "1_1",
+                "r": 0,
+                "op": ">"
               }
             ]
           },
+          "contentCriteriaMatchType": "any",
           "unfrmOptEnrichmentTag": [
             {
-              "cat": "2",
-              "key": "3",
-              "str": 0
+              "cat": "1",
+              "key": "5",
+              "str": 50
+            },
+            {
+              "cat": "1",
+              "key": "1",
+              "str": 50
             }
           ]
         }
@@ -105,74 +114,13 @@
             "sys": {
               "type": "Link",
               "linkType": "Space",
-              "id": "14ndt8qeps2t"
+              "id": "uw22iquaks71"
             }
           },
-          "id": "35Yse50xHyyV2PjxJDjD0G",
+          "id": "2U80SDYK3ZvtfC8da5mLxv",
           "type": "Entry",
-          "createdAt": "2024-03-12T18:00:10.896Z",
-          "updatedAt": "2024-03-12T20:25:02.252Z",
-          "environment": {
-            "sys": {
-              "id": "master",
-              "type": "Link",
-              "linkType": "Environment"
-            }
-          },
-          "revision": 8,
-          "contentType": {
-            "sys": {
-              "type": "Link",
-              "linkType": "ContentType",
-              "id": "personalizationRule"
-            }
-          },
-          "locale": "en-US"
-        },
-        "fields": {
-          "name": "High interest in the US west coast",
-          "action": "boost",
-          "unfrmOptPersonalizationCriteria": {
-            "crit": [
-              {
-                "l": "1_1",
-                "r": 0,
-                "op": ">"
-              },
-              {
-                "l": "1_5",
-                "r": "5",
-                "op": "<"
-              }
-            ]
-          },
-          "unfrmOptEnrichmentTag": [
-            {
-              "cat": "1",
-              "key": "1",
-              "str": 0
-            }
-          ]
-        }
-      }
-    ],
-    "articles": [
-      {
-        "metadata": {
-          "tags": []
-        },
-        "sys": {
-          "space": {
-            "sys": {
-              "type": "Link",
-              "linkType": "Space",
-              "id": "14ndt8qeps2t"
-            }
-          },
-          "id": "4v8a6QsdRSkwZQ30hLxXiG",
-          "type": "Entry",
-          "createdAt": "2024-03-12T16:42:40.753Z",
-          "updatedAt": "2024-03-12T16:42:40.753Z",
+          "createdAt": "2024-03-24T20:46:18.860Z",
+          "updatedAt": "2024-03-24T20:46:18.860Z",
           "environment": {
             "sys": {
               "id": "master",
@@ -185,46 +133,131 @@
             "sys": {
               "type": "Link",
               "linkType": "ContentType",
-              "id": "article"
+              "id": "personalizationRule"
             }
           },
           "locale": "en-US"
         },
         "fields": {
-          "name": "Culture Article",
+          "name": "Hide culture locations from visitors not interested in culture",
+          "action": "hide",
+          "unfrmOptPersonalizationCriteria": {
+            "crit": [
+              {
+                "l": "2_3",
+                "r": "5",
+                "op": "<"
+              }
+            ]
+          },
+          "contentCriteriaMatchType": "all",
           "unfrmOptEnrichmentTag": [
             {
               "cat": "2",
               "key": "3",
-              "str": 1
+              "str": 50
             }
           ]
         }
-      },
+      }
+    ],
+    "locations": [
       {
         "metadata": {
-          "tags": [
-            {
-              "sys": {
-                "type": "Link",
-                "linkType": "Tag",
-                "id": "country"
-              }
-            }
-          ]
+          "tags": []
         },
         "sys": {
           "space": {
             "sys": {
               "type": "Link",
               "linkType": "Space",
-              "id": "14ndt8qeps2t"
+              "id": "uw22iquaks71"
             }
           },
-          "id": "2U3l69xQz9kIhqByVPNUo8",
+          "id": "BWZyrVl4JUk1l2JbA2MzN",
           "type": "Entry",
-          "createdAt": "2024-03-12T16:40:57.708Z",
-          "updatedAt": "2024-03-14T19:20:35.097Z",
+          "createdAt": "2024-03-19T02:13:56.013Z",
+          "updatedAt": "2024-03-19T02:13:56.013Z",
+          "environment": {
+            "sys": {
+              "id": "master",
+              "type": "Link",
+              "linkType": "Environment"
+            }
+          },
+          "revision": 1,
+          "contentType": {
+            "sys": {
+              "type": "Link",
+              "linkType": "ContentType",
+              "id": "location"
+            }
+          },
+          "locale": "en-US"
+        },
+        "fields": {
+          "title": "Buenos Aires",
+          "slug": "buenos-aires",
+          "region": "South America",
+          "excerpt": "Buenos Aires, the capital and largest city of Argentina, is a captivating metropolis known for its rich cultural heritage, European architecture, tango music and dance, and a lively atmosphere. Situated on the eastern shore of the Río de la Plata estuary, Buenos Aires serves as the political, economic, and cultural hub of Argentina."
+        }
+      },
+      {
+        "metadata": {
+          "tags": []
+        },
+        "sys": {
+          "space": {
+            "sys": {
+              "type": "Link",
+              "linkType": "Space",
+              "id": "uw22iquaks71"
+            }
+          },
+          "id": "5Ye4X15coOmbF0x9Le5LWm",
+          "type": "Entry",
+          "createdAt": "2024-03-19T02:13:56.944Z",
+          "updatedAt": "2024-03-19T02:13:56.944Z",
+          "environment": {
+            "sys": {
+              "id": "master",
+              "type": "Link",
+              "linkType": "Environment"
+            }
+          },
+          "revision": 1,
+          "contentType": {
+            "sys": {
+              "type": "Link",
+              "linkType": "ContentType",
+              "id": "location"
+            }
+          },
+          "locale": "en-US"
+        },
+        "fields": {
+          "title": "Okinawa",
+          "slug": "okinawa",
+          "region": "Asia",
+          "excerpt": "Okinawa is a group of islands located in the southern part of Japan, stretching across the East China Sea. The largest and most populous of these islands is Okinawa Island, while the prefecture also includes several smaller islands."
+        }
+      },
+      {
+        "metadata": {
+          "tags": []
+        },
+        "sys": {
+          "space": {
+            "sys": {
+              "type": "Link",
+              "linkType": "Space",
+              "id": "uw22iquaks71"
+            }
+          },
+          "id": "22dwulggu4LvehCUJZHRw6",
+          "type": "Entry",
+          "createdAt": "2024-03-19T02:13:55.522Z",
+          "updatedAt": "2024-03-24T23:28:01.512Z",
           "environment": {
             "sys": {
               "id": "master",
@@ -237,103 +270,41 @@
             "sys": {
               "type": "Link",
               "linkType": "ContentType",
-              "id": "article"
+              "id": "location"
             }
           },
           "locale": "en-US"
         },
         "fields": {
-          "name": "France Article",
+          "title": "Portland",
+          "slug": "portland-or",
           "unfrmOptEnrichmentTag": [
             {
               "cat": "1",
-              "key": "3",
-              "str": 1
+              "key": "1",
+              "str": 50
             }
-          ]
+          ],
+          "region": "North America",
+          "excerpt": "Portland, Oregon, is a city renowned for its unique blend of natural beauty, cultural diversity, and progressive values. Situated in the Pacific Northwest, Portland is the largest city in Oregon and the second-largest in the region, after Seattle."
         }
       },
       {
         "metadata": {
-          "tags": [
-            {
-              "sys": {
-                "type": "Link",
-                "linkType": "Tag",
-                "id": "city"
-              }
-            }
-          ]
+          "tags": []
         },
         "sys": {
           "space": {
             "sys": {
               "type": "Link",
               "linkType": "Space",
-              "id": "14ndt8qeps2t"
+              "id": "uw22iquaks71"
             }
           },
-          "id": "6HH70ehwmgU3wpcAlm30pf",
+          "id": "7D9nDqokgmusdf97vrUgqy",
           "type": "Entry",
-          "createdAt": "2024-03-12T16:40:26.280Z",
-          "updatedAt": "2024-03-14T19:20:23.215Z",
-          "environment": {
-            "sys": {
-              "id": "master",
-              "type": "Link",
-              "linkType": "Environment"
-            }
-          },
-          "revision": 3,
-          "contentType": {
-            "sys": {
-              "type": "Link",
-              "linkType": "ContentType",
-              "id": "article"
-            }
-          },
-          "locale": "en-US"
-        },
-        "fields": {
-          "name": "New York Article",
-          "unfrmOptEnrichmentTag": [
-            {
-              "cat": "1",
-              "key": "5",
-              "str": 1
-            },
-            {
-              "cat": "2",
-              "key": "3",
-              "str": 1
-            }
-          ]
-        }
-      },
-      {
-        "metadata": {
-          "tags": [
-            {
-              "sys": {
-                "type": "Link",
-                "linkType": "Tag",
-                "id": "state"
-              }
-            }
-          ]
-        },
-        "sys": {
-          "space": {
-            "sys": {
-              "type": "Link",
-              "linkType": "Space",
-              "id": "14ndt8qeps2t"
-            }
-          },
-          "id": "LVS0JLyh0qobmnmcSqYgB",
-          "type": "Entry",
-          "createdAt": "2024-03-12T16:40:06.445Z",
-          "updatedAt": "2024-03-14T19:20:45.143Z",
+          "createdAt": "2024-03-19T02:13:56.425Z",
+          "updatedAt": "2024-03-24T20:49:34.610Z",
           "environment": {
             "sys": {
               "id": "master",
@@ -346,72 +317,23 @@
             "sys": {
               "type": "Link",
               "linkType": "ContentType",
-              "id": "article"
+              "id": "location"
             }
           },
           "locale": "en-US"
         },
         "fields": {
-          "name": "California Article",
+          "title": "Strasbourg",
+          "slug": "strasbourg",
           "unfrmOptEnrichmentTag": [
             {
-              "cat": "1",
-              "key": "1",
-              "str": 1
+              "cat": "2",
+              "key": "3",
+              "str": 50
             }
-          ]
-        }
-      },
-      {
-        "metadata": {
-          "tags": [
-            {
-              "sys": {
-                "type": "Link",
-                "linkType": "Tag",
-                "id": "state"
-              }
-            }
-          ]
-        },
-        "sys": {
-          "space": {
-            "sys": {
-              "type": "Link",
-              "linkType": "Space",
-              "id": "14ndt8qeps2t"
-            }
-          },
-          "id": "79bnpxX2Sox0zWCJIH7YF2",
-          "type": "Entry",
-          "createdAt": "2024-03-12T16:39:33.158Z",
-          "updatedAt": "2024-03-14T19:20:55.258Z",
-          "environment": {
-            "sys": {
-              "id": "master",
-              "type": "Link",
-              "linkType": "Environment"
-            }
-          },
-          "revision": 3,
-          "contentType": {
-            "sys": {
-              "type": "Link",
-              "linkType": "ContentType",
-              "id": "article"
-            }
-          },
-          "locale": "en-US"
-        },
-        "fields": {
-          "name": "Oregon Article",
-          "unfrmOptEnrichmentTag": [
-            {
-              "cat": "1",
-              "key": "1",
-              "str": 1
-            }
-          ]
+          ],
+          "region": "Europe",
+          "excerpt": "Strasbourg, situated in northeastern France near the German border, boasts a rich history that dates back centuries. The city has been shaped by both French and German influences, with its history intertwined with the broader context of European conflicts and cooperation."
         }
       }
     ]

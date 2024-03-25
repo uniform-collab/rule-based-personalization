@@ -1,11 +1,18 @@
 import React from "react";
 import { RuleBasedPersonalizationContext } from "../contexts";
-import { RuleBasedPersonalizationProps } from "../types";
+import { Context } from "@uniformdev/context";
+import { LookupConfig } from "@uniformdev-collab/rule-based-personalization";
 
-export function RuleBasedPersonalization<TEntry>(props: React.PropsWithChildren<RuleBasedPersonalizationProps<TEntry>>) {
-  const { optionsResolver, children } = props;
+export type RuleBasedPersonalizationProps<TPzConfig, TPzRuleConfig> = {
+  context: Context;
+  pzConfigs: LookupConfig<TPzConfig>;
+  pzRuleConfigs: LookupConfig<TPzRuleConfig>;
+};
+
+export function RuleBasedPersonalization<TPzConfig, TPzRuleConfig>(props: React.PropsWithChildren<RuleBasedPersonalizationProps<TPzConfig, TPzRuleConfig>>) {
+  const { context, pzConfigs, pzRuleConfigs, children } = props;
   return (
-    <RuleBasedPersonalizationContext.Provider value={{ optionsResolver }}>
+    <RuleBasedPersonalizationContext.Provider value={{ pzConfigs, pzRuleConfigs, context }}>
       {children}
     </RuleBasedPersonalizationContext.Provider>
   );
